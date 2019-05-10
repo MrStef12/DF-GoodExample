@@ -34,6 +34,16 @@ exports.dialogflowFirebaseFulfillment = functions.region('europe-west1').https.o
     agent.add(`You got it! I have booked the table for you. See you ${dateString}.`);
   }
 
+  function checkForGame(agent) {
+    const game = agent.parameters.game;
+    if (game && game !== '') {
+      agent.add(`Yes we do have ${game}`);
+    } else {
+      agent.add('Sorry we dont have that game');
+      agent.add('Can I help you with something else?');
+    }
+  }
+
   // // Uncomment and edit to make your own intent handler
   // // uncomment `intentMap.set('your intent name here', yourFunctionHandler);`
   // // below to get this function to be run when a Dialogflow intent is matched
@@ -68,6 +78,7 @@ exports.dialogflowFirebaseFulfillment = functions.region('europe-west1').https.o
   intentMap.set('Default Fallback Intent', fallback);
   intentMap.set('Booktable', booktable);
   intentMap.set('Booktable - yes', booktableYes);
+  intentMap.set('CheckForGame', checkForGame);
   // intentMap.set('your intent name here', yourFunctionHandler);
   // intentMap.set('your intent name here', googleAssistantHandler);
   agent.handleRequest(intentMap);
